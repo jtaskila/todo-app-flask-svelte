@@ -7,6 +7,9 @@ from resources import *
 from flask_restful import Api
 api = Api()
 
+from flask_cors import CORS, cross_origin
+cors = CORS()
+
 def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = db_config['SQLALCHEMY_DATABASE_URI']
@@ -20,6 +23,7 @@ def create_app():
 
     api.init_app(app)
     ma.init_app(app)
+    cors.init_app(app)
 
     db.init_app(app)
     return app

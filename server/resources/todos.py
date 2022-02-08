@@ -18,17 +18,20 @@ class TodosResource(Resource):
             return {"message": "Permission denied"},403
 
         # query users todos
-        todos = TodoModel.query.filter_by(user_id = user_id)
+        todos = TodoModel.query.filter_by(user_id = user_id).order_by(TodoModel._id.desc())
         data = list()
 
-        for todo in todos:
-            data.append({
-                "id": todo._id,
-                "todo": todo.todo,
-                "status": todo.status
-            })
+        if(todos):
+            for todo in todos:
+                data.append({
+                    "id": todo._id,
+                    "todo": todo.todo,
+                    "status": todo.status
+                })
 
-        return {"message": "Here are your todos", "data": data},200
+            return {"message": "Here are your todos", "data": data},200
+
+        return {"message": "No todos found"},404
 
     def post(self):
         # check if apikey exists
